@@ -1,2 +1,1 @@
-# ci-cd
-Golang CI
+CI-CD Workflow

@@ -1,6 +1,5 @@
-FROM golang:1.12.0-alpine3.9
-RUN mkdir /app
-COPY main.go /app
-WORKDIR /app
-RUN go build -o main .
-CMD ["/app/main"]
+# Dockerfile
+FROM python:2.7-onbuild
+MAINTAINER Harsha
+EXPOSE 80
+ENTRYPOINT ["python", "/usr/src/app/hello-world.py"]

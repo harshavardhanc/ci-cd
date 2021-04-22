@@ -1,0 +1,5 @@
+---
+- hosts: swarm-manager 
+  become: yes
+  roles:
+    - deploy

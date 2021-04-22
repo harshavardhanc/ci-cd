@@ -1,0 +1,14 @@
+---
+- name: Create docker network
+  shell: "docker network create -d overlay application"
+  ignore_errors: yes
+
+- name: Copy stack file
+  template:
+    src: templates/demo-stack.yml
+    dest: /home/ubuntu/demo-stack.yml
+
+- name: Deploy Application
+  shell: "docker stack deploy -c demo-stack.yml python"
+  args:
+    chdir: /home/ubuntu
