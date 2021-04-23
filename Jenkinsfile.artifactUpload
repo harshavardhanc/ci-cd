@@ -24,7 +24,9 @@ pipeline {
         }
 
         stage('CopyArtifact') {
-           copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'Build'
+            steps { 
+             copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'Build'
+           }
         }
 
         stage('ArtifactUpload') {
