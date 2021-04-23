@@ -13,11 +13,14 @@ pipeline {
    parameters {
       string(name: 'image_name', defaultValue: 'harshac/python_webapp', description: 'Bulid Image Name', )
    }
-
+   
     agent any 
     stages {
         stage('CleanWorkspace') {
             steps {
+              script {
+                  properties([pipelineTriggers([pollSCM('*/2 * * * *')])
+              }
               cleanWs()
               println(WORKSPACE)
             }
