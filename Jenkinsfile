@@ -19,6 +19,8 @@ pipeline {
         stage('CleanWorkspace') {
             steps {
               cleanWs()
+              def foo = sh(script: 'pwd', returnStdout: true)
+              println(foo)
             }
 
         }
