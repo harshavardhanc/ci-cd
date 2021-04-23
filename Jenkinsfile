@@ -18,9 +18,6 @@ pipeline {
     stages {
         stage('CleanWorkspace') {
             steps {
-              script {
-                  properties([pipelineTriggers([pollSCM('*/2 * * * *')])
-              }
               cleanWs()
               println(WORKSPACE)
             }
