@@ -10,9 +10,6 @@ pipeline {
     )
   }
 
-    withCredentials([usernamePassword(credentialsId: 'dockerhub',
-                     usernameVariable: 'dockerhub_user', passwordVariable: 'dockerhub_pass')])
-
     agent any 
     stages {
         stage('CleanWorkspace') {
@@ -31,11 +28,16 @@ pipeline {
 
         stage('ArtifactUpload') {
             steps {
+              withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                    usernameVariable: 'dockerhub_user', passwordVariable: 'dockerhub_pass')])
+                  {
+
                 sh'''
                    image_name=$(cat artifact_metadata)
                    docker login -u ${dockerhub_user} -p ${dockerhub_pass}
                    docker push $image_name
                   '''
+                  }
             }
         }
     }
