@@ -10,11 +10,8 @@ pipeline {
     )
   }
 
-   parameters {
-      password(name: 'dockerhub_user', DESCRIPTION: 'Username' )
-      password(name: 'dockerhub_pass', DESCRIPTION: 'Password' )
-   }
-
+    withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                     usernameVariable: 'dockerhub_user', passwordVariable: 'dockerhub_pass')])
 
     agent any 
     stages {
