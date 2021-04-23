@@ -10,11 +10,9 @@ pipeline {
     )
   }
 
-  properties([
-    parameters([
+   parameters {
       string(name: 'image_name', defaultValue: 'harshac/python_webapp', description: 'Bulid Image Name', )
-   ])
-  ])
+   }
 
     agent any 
     stages {
