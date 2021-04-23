@@ -1,0 +1,45 @@
+pipeline {
+  options {
+    buildDiscarder(
+        logRotator(
+            // number of build logs to keep
+            numToKeepStr:'1',
+            // number of builds have their artifacts kept
+            artifactNumToKeepStr: '1'
+        )
+    )
+  }
+
+    agent any 
+    stages {
+        stage('CleanWorkspace') {
+            steps {
+              cleanWs()
+              println(WORKSPACE)
+            }
+
+        }
+
+        stage('CopyArtifact') {
+            steps { 
+             copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'ArtifactUpload'
+           }
+        }
+
+        stage('Deploy') {
+            steps {
+
+                sh'''
+                  image_name=$(cat artifact_metadata)
+                  ansible-playbook -i ansible/inventory/hosts ansible/main.yml -e "image_name=$image_name"
+                  '''
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'artifact_metadata', onlyIfSuccessful: true
+        }
+    }
+}
