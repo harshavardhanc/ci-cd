@@ -21,7 +21,6 @@ pipeline {
               cleanWs()
               println(WORKSPACE)
             }
-
         }
 
         stage('Checkout Scm') {
