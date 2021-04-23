@@ -38,7 +38,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'artifact_metadata, onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'artifact_metadata', onlyIfSuccessful: true
         }
     }
 }
