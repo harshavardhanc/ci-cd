@@ -26,6 +26,13 @@ pipeline {
            }
         }
 
+        stage('Checkout Scm') {
+            steps {
+              checkout scm
+            }
+        }
+
+
         stage('Deploy') {
             steps {
 
