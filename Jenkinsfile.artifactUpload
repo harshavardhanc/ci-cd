@@ -10,8 +10,11 @@ pipeline {
     )
   }
 
-    properties([parameters([password(defaultValueAsSecret: <object of type hudson.util.Secret>, description: '', name: 'dockerhub_user'), 
-                            password(defaultValueAsSecret: <object of type hudson.util.Secret>, description: '', name: 'dockerhub_pass')])])
+   parameters {
+      password(name: 'dockerhub_user', DESCRIPTION: 'Username' )
+      password(name: 'dockerhub_pass', DESCRIPTION: 'Password' )
+   }
+
 
     agent any 
     stages {
