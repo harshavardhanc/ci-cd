@@ -1,0 +1,46 @@
+pipeline {
+  options {
+    buildDiscarder(
+        logRotator(
+            // number of build logs to keep
+            numToKeepStr:'1',
+            // number of builds have their artifacts kept
+            artifactNumToKeepStr: '1'
+        )
+    )
+  }
+
+    properties([parameters([password(defaultValueAsSecret: <object of type hudson.util.Secret>, description: '', name: 'dockerhub_user'), 
+                            password(defaultValueAsSecret: <object of type hudson.util.Secret>, description: '', name: 'dockerhub_pass')])])
+
+    agent any 
+    stages {
+        stage('CleanWorkspace') {
+            steps {
+              cleanWs()
+              println(WORKSPACE)
+            }
+
+        }
+
+        stage('CopyArtifact') {
+           copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'Build'
+        }
+
+        stage('ArtifactUpload') {
+            steps {
+                sh'''
+                   image_name=$(cat artifact_metadata)
+                   docker login -u ${dockerhub_user} -p ${dockerhub_pass}
+                   docker push $image_name
+                  '''
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'artifact_metadata', onlyIfSuccessful: true
+        }
+    }
+}
