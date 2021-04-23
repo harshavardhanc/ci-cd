@@ -20,16 +20,17 @@ pipeline {
 
         }
 
-        stage('CopyArtifact') {
-            steps { 
-             copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'ArtifactUpload'
-           }
-        }
-
         stage('Checkout Scm') {
             steps {
               checkout scm
             }
+        }
+
+
+        stage('CopyArtifact') {
+            steps { 
+             copyArtifacts filter: 'artifact_metadata', fingerprintArtifacts: true, projectName: 'ArtifactUpload'
+           }
         }
 
 
